@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .one {
+            width: 100px;
+            height: 100px;
+            border: 1px solid black;
+        }
+
+        .two {
+            border: 1px solid red;
+            padding: 5px;
+        }
+
+        .tree {
+            animation: slideLeft 10s ease-in-out;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes slideLeft {
+            from {
+                transform: translateY(2px);
+            }
+            to {
+                transform: translateY(30px);
+            }
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+</head>
+<body>
+
+<h5>1. Что выведет alert(typeof NaN); ?</h5>
+<p>Number Несмотря на то что NaN используется как значение для математ функций которые
+    невозможны арифметически он также является частью глобального объекта Object.Number,
+    то есть это числовое значение которое содержит не настоящее число </p>
+<h5>2. Что выведет alert(NaN === NaN); ?</h5>
+<p>
+    false
+    Nan это всегда значение невозможной арифмитеческой операции, интерпритатор возвращает значение
+    зная при это что это не число, но такое значение не равно результату другой матем операции которая
+    возвращает другое не число. Именно поэтому чтобы узнать является результат Nan лучше использовать
+    IsNan()
+</p>
+
+<h5> 3. 0.1 + 0.2 == 0.3 ?</h5>
+<p> false поскольку для сложения этих чисел они переводяться в двоичный эквивалент, а в двоичном эквиваленте
+    0.1 совсем не равен 0.1 Именно когда складываються двоичные эквиваленты получеться что то вроде
+    0.30000000000000004</p>
+<h5>4. Какой тип будет иметь переменная a, если она создается при помощи следующего кода:var a = "a,b".split(',');</h5>
+<p>array поскольку метод split возвращает новый массив </p>
+
+<h5>5. Сделать так, чтобы при нажатии на элемент
+    '
+    <а>' алертом выводилось «Hello world!».
+</h5>
+<p>
+    <a href="#" id="elA">элемент '
+        <а>'
+    </a>
+</p>
+<script>
+    $("a").click((event) => {
+        event.preventDefault();
+        alert("hello world!");
+    });
+</script>
+<h5>6. Найти все элементы div с классом one, а также все элементы p с классом two. Затем добавить им всем класс three и
+    визуально плавно спустить вниз.</h5>
+
+<div class="one">
+    <p class="two"></p>
+    <p class="two"></p>
+    <p class="two"></p>
+</div>
+<div class="one">
+    <p class="two"></p>
+    <p class="two"></p>
+    <p class="two"></p>
+</div>
+<div class="one">
+    <p class="two"></p>
+    <p class="two"></p>
+    <div name="red"><span>I'm span</span></div>
+</div>
+<script>$("div.one").add("p.two").addClass("tree").slideDown("slow"); </script>
+
+<h5>7. Выбрать видимый div с именем red, который содержит тег span.</h5>
+<script>$("DIV[name=red]:visible:has(span)")</script>
+<h5>8. Привести пример замыкания.</h5>
+<script>
+    function counter() {
+        let counter = 0;
+        return function () {
+            return ++counter;
+
+        }
+    }
+
+    let counterA = counter();
+    let counterB = counter();
+    console.log(counterA());
+    console.log(counterB());
+    console.log(counterA());
+    console.log(counterA());
+    console.log(counterB());
+
+    function multiplyBy(num1) {
+        return function (num2) {
+            return num1 * num2;
+
+        }
+    }
+
+    let myltiplyBy3 = multiplyBy(3);
+    let myltiplyBy2 = multiplyBy(2);
+    console.log(myltiplyBy3(5));
+    console.log(myltiplyBy2(4));
+</script>
+
+<h5>9. Написать функцию, которая уменьшает или увеличивает указанное время на заданное количество минут, например:
+    <ul>
+        <li>changeTime('10:00', 1) //return '10:01'</li>
+        <li>changeTime('10:00', -1) //return '09:59'</li>
+        <li>changeTime('23:59', 1) //return '00:00'</li>
+        <li>changeTime('00:00', -1) //return '23:59</li>
+    </ul>
+    '
+</h5>
+
+<script>
+    function changeTime(time, amount) {
+
+        let timeArray = time.split(":");
+        let timeObj = new Date;
+
+        timeObj.setHours(+timeArray[0]);
+        timeObj.setMinutes(+timeArray[1] + amount);
+
+        let hours = timeObj.getHours();
+
+        if (hours <= 9) {
+            hours = "0" + timeObj.getHours();
+        }
+
+        let minutes = timeObj.getMinutes();
+        if (minutes <= 9) {
+            minutes = "0" + timeObj.getMinutes();
+        }
+
+        return hours + ":" + minutes
+
+    }
+
+</script>
+<h5>10. Написать функцию, возвращающую градус, на который указывают часовая и минутная стрелки в зависимости от времени,
+    например:</h5>
+<ul>
+    <li>clock_degree("00:00") returns : "360:360"</li>
+    <li>clock_degree("01:01") returns : "30:6"</li>
+    <li>clock_degree("00:01") returns : "360:6"</li>
+    <li>clock_degree("01:00") returns : "30:360"</li>
+    <li>clock_degree("01:30") returns : "30:180"</li>
+    <li>clock_degree("24:00") returns : "Check your time !"</li>
+    <li>clock_degree("13:60") returns : "Check your time !"</li>
+    <li>clock_degree("20:34") returns : "240:204"</li>
+
+</ul>
+
+<script>
+    function clock_degree(time) {
+        let timeArray = time.split(":");
+
+        let hours = +timeArray[0];
+        let minutes = +timeArray[1];
+
+        if (hours >= 24 || minutes >= 60) {
+            return "Check your time !"
+        }
+
+        let hoursDegree;
+        let minutesDegree;
+        (hours === 0) ? hoursDegree = 360  : hoursDegree = 30 * Math.floor(hours % 12);
+        (minutes === 0) ? minutesDegree = 360 : minutesDegree = 6 * minutes ;
+
+        return `${hoursDegree}:${minutesDegree}`
+
+    }
+</script>
+
+<h5>11. Написать простую игру «Угадай число». Программа загадывает случайное число от 0 до 100. Игрок должен вводить
+    предположения и получать ответы «Больше», «Меньше» или «Число угадано».*/</h5>
+<script>
+    function gameInit() {
+        let numberGuessed = Math.floor(Math.random() * 100);
+        let playerNum = 0;
+
+        while (playerNum !== numberGuessed) {
+            if (playerNum == numberGuessed) {
+                alert("Число угадано");
+                break;
+            } else {
+                playerNum = prompt("Какое число я загадал?");
+
+                if (!playerNum) {
+                    alert(numberGuessed);
+                    break;
+                }
+                if (playerNum < numberGuessed) {
+                    alert("Больше");
+
+
+                }
+                if (playerNum > numberGuessed) {
+                    alert("Меньше");
+
+                }
+            }
+
+
+        }
+
+
+    }
+
+</script>
+<button onclick=gameInit()>Играть</button>
+
+
+</body>
+</html>
